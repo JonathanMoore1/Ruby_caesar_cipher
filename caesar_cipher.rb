@@ -12,20 +12,28 @@ def caesar_cipher string, shift
 
 	string.split('').each do |letter|
 		index = nil
-		min = 0
+		min = -25
 		max = 25
+
 		if upper_alphabet.include?(letter) || lower_alphabet.include?(letter)
 			index = upper_alphabet.index(letter) || lower_alphabet.index(letter)
 		else
 			out_array.push(letter)
 			next
 		end
-		shift_factor = index + shift.clamp(min, max) - 26
+		shift_factor = index + shift.clamp(min, max)
 		if upper_alphabet.include?(letter)
-			out_array.push(upper_alphabet[shift_factor])
+			if shift.negative?
+				out_array.push(upper_alphabet[shift_factor])
+			else
+				out_array.push(upper_alphabet[shift_factor - 26])
+			end
 		else
-			out_array.push(lower_alphabet[shift_factor])
-			next
+			if shift.negative?
+				out_array.push(lower_alphabet[shift_factor])
+			else
+				out_array.push(lower_alphabet[shift_factor - 26])
+			end
 		end
  	end
 	out_array.join
